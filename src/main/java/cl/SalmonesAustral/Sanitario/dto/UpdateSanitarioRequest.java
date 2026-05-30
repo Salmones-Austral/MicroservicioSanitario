@@ -1,41 +1,26 @@
-package cl.SalmonesAustral.Sanitario.modelo;
+package cl.SalmonesAustral.Sanitario.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDate;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
+/**
+ * DTO para actualizar un libro existente (PUT) Incluye ID para identificar qué libro actualizar
+ */
 
-@Entity
-public class Sanitario {
+public class UpdateSanitarioRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int jaulaId;
-
+    @NotBlank(message = "Enfermedad no puede ser vacía")
     private String enfermedad;
-
+    @NotBlank(message = "Medicamento no puede ser vacío")
     private String medicamento;
-
+    @PositiveOrZero(message = "Dosis no puede ser negativa")
     private double dosis;
-
     private int duracionDias;
-
     private int diasResguardo;
-
-    private LocalDate fechaInicio;
-
-    // ESTE ES EL QUE TE FALTABA
-    private String estado;
-
-    // Y ESTE TAMBIÉN
-    private boolean bloqueaCosecha;
-
     private String observaciones;
 
-    public Sanitario() {}
+    public UpdateSanitarioRequest() {}
 
     // GETTERS Y SETTERS
 
@@ -95,32 +80,6 @@ public class Sanitario {
         this.diasResguardo = diasResguardo;
     }
 
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
-    //  IMPORTANTE
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    //  IMPORTANTE
-    public boolean isBloqueaCosecha() {
-        return bloqueaCosecha;
-    }
-
-    public void setBloqueaCosecha(boolean bloqueaCosecha) {
-        this.bloqueaCosecha = bloqueaCosecha;
-    }
-
     public String getObservaciones() {
         return observaciones;
     }
@@ -128,6 +87,4 @@ public class Sanitario {
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
-   
- 
 }
