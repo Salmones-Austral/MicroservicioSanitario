@@ -18,6 +18,6 @@ public record UpdateSanitarioRequest(
 
     @NotBlank(message="El estado de jaula no puede estar vacio") String estado
 ) {
-
-
 }
+
+

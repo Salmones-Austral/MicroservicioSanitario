@@ -1,8 +1,10 @@
 package cl.SalmonesAustral.Sanitario.mapper;
 
+
 import cl.SalmonesAustral.Sanitario.dto.CreateSanitarioRequest;
 import cl.SalmonesAustral.Sanitario.dto.UpdateSanitarioRequest;
 import cl.SalmonesAustral.Sanitario.modelo.Sanitario;
+
 
 public class SanitarioMapper {
     //convierte CreateSanitarioRequest a Sanitario(para post)
