@@ -1,20 +1,19 @@
 package cl.SalmonesAustral.Sanitario.dto;
 
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotBlank;
 
-import jakarta.validation.constraints.*;
 
-public record CreateSanitarioRequest (
-    @NotNull(message="El id de jaula no puede ser nulo") int jaulaId,
+/**
+ * DTO para crear un nuevo libro (POST) No incluye ID porque se genera automáticamente
+ */
+public record CreateSanitarioRequest(
 
-    @NotNull(message="El id de usuario no puede ser nulo") int usuarioId,
-
-    @NotBlank(message="El diagnostico no puede estar vacio") String diagnostico,
-
-    @NotBlank(message="La enfermedad debe ser registrada, no puede estar vacia") String enfermedad,
-
-    @NotNull(message="La fecha del diagnostico es obligatoria") LocalDateTime fechaDiagnostico,
-
-    @NotBlank(message="El estado de jaula no puede estar vacio ") String estado) {
-
+    int jaulaId,
+    @NotBlank(message = "Enfermedad no puede ser vacía") String enfermedad,
+    @NotBlank(message = "Medicamento no puede ser vacío") String medicamento,
+    @NotBlank(message = "Dosis no puede ser vacía") double dosis,
+    int duracionDias,
+    int diasResguardo,
+    String observaciones
+) {
 }

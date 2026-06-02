@@ -1,83 +1,133 @@
 package cl.SalmonesAustral.Sanitario.modelo;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-
-@Table(name="tabla_sanitario")
 public class Sanitario {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Column(name="id_san")
-    private int idSan;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column
-    (name="jaula_id", nullable=false) private int jaulaId;
+    private int jaulaId;
 
-    @Column
-    (name="usuario_id", nullable=false) private int usuarioId;
+    private String enfermedad;
 
-    @Column
-    (name="diagnostico", nullable=false, length=200) private String diagnostico;
+    private String medicamento;
 
-    @Column
-    (name="enfermedad", nullable=false, length=100) private String enfermedad;
+    private double dosis;
 
-    @Column
-    (name="fecha_diagnostico", nullable=false) private LocalDateTime fechaDiagnostico;
-    // estados= activo: recien detectado sin tratamiento aun, en tratamiento: la dra molina ya puso un plan de tratamiento, 
-    // resuelto: la enfermedad se trato, critico: brote grave c/riesgo de sacrificar jaula
-    @Column
-    (name="estado", nullable=false, length=20) private String estado;
+    private int duracionDias;
 
+    private int diasResguardo;
 
-    //Constructor sin argumentos
+    private LocalDate fechaInicio;
+
+    // ESTE ES EL QUE TE FALTABA
+    private String estado;
+
+    // Y ESTE TAMBIÉN
+    private boolean bloqueaCosecha;
+
+    private String observaciones;
+
     public Sanitario() {}
-    //constructor completo
-    public Sanitario(int idSan, int jaulaId, int usuarioId, String diagnostico, String enfermedad,
-        LocalDateTime fechaDiagnostico, String estado){
-            this.idSan=idSan;
-            this.jaulaId=jaulaId;
-            this.usuarioId=usuarioId;
-            this.diagnostico=diagnostico;
-            this.enfermedad=enfermedad;
-            this.fechaDiagnostico=fechaDiagnostico;
-            this.estado=estado;
-        }
-    //GETTERS AND SETTERS
-    public int getIdSan() {
-        return idSan;}
-    public void setIdSan(int idSan) {
-        this.idSan=idSan;}
-    public int getJaulaId() {
-        return jaulaId;}
-    public void setJaulaId(int jaulaId) {
-        this.jaulaId=jaulaId;}
-    public int getUsuarioId() {
-        return usuarioId;}
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId=usuarioId;} 
-    public String getDiagnostico() {
-        return diagnostico;}
-    public void setDiagnostico(String diagnostico) {
-        this.diagnostico=diagnostico;}
-    public String getEnfermedad() {
-        return enfermedad;}
-    public void setEnfermedad(String enfermedad) {
-        this.enfermedad=enfermedad;}
-    public LocalDateTime getFechaDiagnostico() {
-        return fechaDiagnostico;}
-    public void setFechaDiagnostico(LocalDateTime fechaDiagnostico) {
-        this.fechaDiagnostico=fechaDiagnostico;}
-    public String getEstado() {
-        return estado;}
-    public void setEstado(String estado) {
-        this.estado=estado;}
+
+    // GETTERS Y SETTERS
+
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getJaulaId() {
+        return jaulaId;
+    }
+
+    public void setJaulaId(int jaulaId) {
+        this.jaulaId = jaulaId;
+    }
+
+    public String getEnfermedad() {
+        return enfermedad;
+    }
+
+    public void setEnfermedad(String enfermedad) {
+        this.enfermedad = enfermedad;
+    }
+
+    public String getMedicamento() {
+        return medicamento;
+    }
+
+    public void setMedicamento(String medicamento) {
+        this.medicamento = medicamento;
+    }
+
+    public double getDosis() {
+        return dosis;
+    }
+
+    public void setDosis(double dosis) {
+        this.dosis = dosis;
+    }
+
+    public int getDuracionDias() {
+        return duracionDias;
+    }
+
+    public void setDuracionDias(int duracionDias) {
+        this.duracionDias = duracionDias;
+    }
+
+    public int getDiasResguardo() {
+        return diasResguardo;
+    }
+
+    public void setDiasResguardo(int diasResguardo) {
+        this.diasResguardo = diasResguardo;
+    }
+
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    //  IMPORTANTE
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    //  IMPORTANTE
+    public boolean isBloqueaCosecha() {
+        return bloqueaCosecha;
+    }
+
+    public void setBloqueaCosecha(boolean bloqueaCosecha) {
+        this.bloqueaCosecha = bloqueaCosecha;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+   
+ 
+}
