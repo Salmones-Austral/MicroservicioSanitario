@@ -1,4 +1,4 @@
-package cl.SalmonesAustral.Sanitario.config;
+/*package cl.SalmonesAustral.Sanitario.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
     @Bean 
     public WebClient sanitarioWebClient(WebClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8080").build();
+        return builder.baseUrl("http://localhost:8093").build();
     }
 
 }
+ */

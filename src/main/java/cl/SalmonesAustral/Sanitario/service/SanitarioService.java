@@ -12,11 +12,14 @@ import java.util.List;
 @Service
 public class SanitarioService {
 
-    @Autowired
-    private SanitarioRepository repository;
+    
+    private final SanitarioRepository repository;
+
+    public SanitarioService(SanitarioRepository repository) {
+        this.repository=repository;
+    }
 
     public Sanitario crearTratamiento(Sanitario t) {
-
         t.setEstado("ACTIVO"); // ahora existe
         t.setFechaInicio(LocalDate.now());
 
@@ -27,16 +30,14 @@ public class SanitarioService {
         return repository.save(t);
     }
 
-    public Sanitario finalizarTratamiento(Long id) {
+    public Sanitario finalizarTratamiento(Integer id) {
 
         Sanitario t = repository.findById(id).orElse(null);
-
         if (t != null) {
             t.setEstado("FINALIZADO");
             t.setBloqueaCosecha(false);
             return repository.save(t);
         }
-
         return null;
     }
 
@@ -44,24 +45,38 @@ public class SanitarioService {
     return repository.findAll();
 }
 
-    public Sanitario obtenerPorId(Long id) {
+    public Sanitario obtenerPorId(Integer id) {
     return repository.findById(id).orElse(null);
 }
 
-    public List<Sanitario> porJaula(int jaulaId) {
+    public List<Sanitario> porJaula(Integer jaulaId) {
     return repository.findByJaulaId(jaulaId);
 }
 
-    public void eliminar(Long id) {
+    public void eliminar(Integer id) {
     repository.deleteById(id);
 }
 
-    public boolean puedeCosechar(int jaulaId) {
-
+    public boolean puedeCosechar(Integer jaulaId) {
     List<Sanitario> lista = repository.findByJaulaId(jaulaId);
+    if(lista.isEmpty()){
+        return true;
+    }
+    LocalDate hoy=LocalDate.now();
+    for (Sanitario t : lista) {
+        if(t.isBloqueaCosecha()) {
+            return false;
+        }
+        if(t.getFechaInicio()!=null) {
+            int diasTotalesTratamiento=t.getDuracionDias() + t.getDiasResguardo();
+            LocalDate fechaLiberacionSanitario = t.getFechaInicio().plusDays(diasTotalesTratamiento);
 
-    // Si existe al menos uno que bloquea cosecha → NO puede cosechar
-    return lista.stream()
-            .noneMatch(t -> t.isBloqueaCosecha());
+            if(hoy.isBefore(fechaLiberacionSanitario)) {
+                return false;
+            }
+        }
+    }
+    return true;
+
 }
 }

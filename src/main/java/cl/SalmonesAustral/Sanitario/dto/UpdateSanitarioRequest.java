@@ -1,90 +1,49 @@
 package cl.SalmonesAustral.Sanitario.dto;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 /**
  * DTO para actualizar un libro existente (PUT) Incluye ID para identificar qué libro actualizar
  */
 
-public class UpdateSanitarioRequest {
+public record UpdateSanitarioRequest (
 
-    private Long id;
-    private int jaulaId;
-    @NotBlank(message = "Enfermedad no puede ser vacía")
-    private String enfermedad;
-    @NotBlank(message = "Medicamento no puede ser vacío")
-    private String medicamento;
-    @PositiveOrZero(message = "Dosis no puede ser negativa")
-    private double dosis;
-    private int duracionDias;
-    private int diasResguardo;
-    private String observaciones;
+    @NotNull(message = "El ID del registro sanitario es obligatorio")
+    @Positive(message = "El ID del registro debe ser valido")
+    Integer id,
 
-    public UpdateSanitarioRequest() {}
+    @NotNull(message = "El ID de la jaula es obligatorio")
+    @Positive(message = "El ID de la jaula debe ser un numero positivo")
+    Integer jaulaId,
 
-    // GETTERS Y SETTERS
+   @NotBlank(message = "Enfermedad no puede estar vacía") 
+    String enfermedad,
 
-    public Long getId() {
-        return id;
-    }
+    @NotBlank(message = "Medicamento no puede estar vacío") 
+    String medicamento,
+    
+    @NotNull(message = "La dosis es obligatoria")
+    @Positive(message = "La dosis no puede ser un valor negativo")
+    Double dosis,
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @NotNull(message = "La duracion en dias es obligatoria")
+    Integer duracionDias,
 
-    public int getJaulaId() {
-        return jaulaId;
-    }
+    @NotNull(message = "Los dias de resguardo son obligatorios")
+    int diasResguardo,
 
-    public void setJaulaId(int jaulaId) {
-        this.jaulaId = jaulaId;
-    }
+    @NotNull(message = "La fecha de inicio del tratamiento es obligatoria")
+    LocalDate fechaInicio,
 
-    public String getEnfermedad() {
-        return enfermedad;
-    }
+    @NotBlank(message = "El estado del tratamiento es obligatorio")
+    String estado,
 
-    public void setEnfermedad(String enfermedad) {
-        this.enfermedad = enfermedad;
-    }
+    boolean bloqueaCosecha,
 
-    public String getMedicamento() {
-        return medicamento;
-    }
-
-    public void setMedicamento(String medicamento) {
-        this.medicamento = medicamento;
-    }
-
-    public double getDosis() {
-        return dosis;
-    }
-
-    public void setDosis(double dosis) {
-        this.dosis = dosis;
-    }
-
-    public int getDuracionDias() {
-        return duracionDias;
-    }
-
-    public void setDuracionDias(int duracionDias) {
-        this.duracionDias = duracionDias;
-    }
-
-    public int getDiasResguardo() {
-        return diasResguardo;
-    }
-
-    public void setDiasResguardo(int diasResguardo) {
-        this.diasResguardo = diasResguardo;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
+    String observaciones
+) {
 }

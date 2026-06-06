@@ -13,39 +13,40 @@ public class SanitarioMapper {
      */
     public static Sanitario toModel(CreateSanitarioRequest request) {
 
-        Sanitario t = new Sanitario();
-
-        t.setJaulaId(request.jaulaId());
-        t.setEnfermedad(request.enfermedad());
-        t.setMedicamento(request.medicamento());
-        t.setDosis(request.dosis());
-        t.setDuracionDias(request.duracionDias());
-        t.setDiasResguardo(request.diasResguardo());
-        t.setObservaciones(request.observaciones());
-
-        // NO seteamos estado ni fecha → lo hace el SERVICE
-
-        return t;
+        return new Sanitario(
+        null,
+        request.jaulaId(),
+        request.enfermedad(),
+        request.medicamento(),
+        request.dosis(),
+        request.duracionDias(),
+        request.diasResguardo(),
+        request.fechaInicio(),
+        request.estado(),
+        request.bloqueaCosecha(),
+        request.observaciones()
+        );
     }
+
+    
 
     /**
      * Convierte UpdateSanitarioRequest a Sanitario (PUT)
      * El ID viene del path
      */
-    public static Sanitario toModel(Long id, UpdateSanitarioRequest request) {
-
-        // Para update, solo seteamos los campos que se pueden modificar (no ID, estado ni fecha)
-        Sanitario t = new Sanitario();
-
-        t.setId(id);
-        t.setJaulaId(request.getJaulaId());
-        t.setEnfermedad(request.getEnfermedad());
-        t.setMedicamento(request.getMedicamento());
-        t.setDosis(request.getDosis());
-        t.setDuracionDias(request.getDuracionDias());
-        t.setDiasResguardo(request.getDiasResguardo());
-        t.setObservaciones(request.getObservaciones());
-
-        return t;
+    public static Sanitario toModel(Integer id, UpdateSanitarioRequest request) {
+        return new Sanitario(
+        id,
+        request.jaulaId(),
+        request.enfermedad(),
+        request.medicamento(),
+        request.dosis(),
+        request.duracionDias(),
+        request.diasResguardo(),
+        request.fechaInicio(),
+        request.estado(),
+        request.bloqueaCosecha(),
+        request.observaciones()
+        );    
     }
 }

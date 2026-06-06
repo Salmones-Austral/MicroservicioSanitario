@@ -9,15 +9,15 @@ import java.util.List;
 
 
 @Repository
-public interface SanitarioRepository extends JpaRepository<Sanitario, Long> {
+public interface SanitarioRepository extends JpaRepository<Sanitario, Integer> {
 
-    List<Sanitario> findByJaulaId(int jaulaId);
+    List<Sanitario> findByJaulaId(Integer jaulaId);
 
     List<Sanitario> findByEstado(String estado);
 
     //  tratamientos activos (importante para bloqueo)
-    @Query("SELECT t FROM Sanitario t WHERE t.estado = 'ACTIVO'")
-    List<Sanitario> tratamientosActivos();
+    
+    List<Sanitario> findByEstadoIgnoreCase(String estado);
     
 
 }
