@@ -36,7 +36,8 @@ public class SanitarioService {
     public SanitarioService(SanitarioRepository repository,
         @Qualifier("alertasWebClient") WebClient alertasWebClient,
         @Qualifier("monitoreoAWebClient") WebClient monitoreoAWebClient,
-        @Qualifier("mortalidadWebClient") WebClient mortalidadWebClient) {
+        @Qualifier("mortalidadWebClient") WebClient mortalidadWebClient
+    ) {
         this.repository=repository;
         this.alertasWebClient=alertasWebClient;
         this.monitoreoAWebClient=monitoreoAWebClient;
@@ -52,6 +53,7 @@ public class SanitarioService {
         try{
             dashboard.setAlertas(consultarAlertas(jaulaId));
         }catch (ResourceNotFoundException | ServicioExternoException e) {
+            System.out.println("Error al conectar con ms Alertas: " + e.getMessage());
             //en vez de romper todo el programa, maneja el error de alertas
             dashboard.setAlertas(new AlertasResponse());
         }
@@ -74,13 +76,22 @@ public class SanitarioService {
             return alertasWebClient.get()
             .uri("/jaula/{id}", jaulaId)
             .retrieve()
-            .bodyToMono(AlertasResponse.class)
+
+            //procesa los corchetes de la lista
+            .bodyToFlux(AlertasResponse.class)
+            //extrae el 1er objeto {} que este dentro
+            .next()
+            //resuelve y devuelve el resultado
             .block();
         }catch (WebClientResponseException.NotFound ex) {
             throw new ResourceNotFoundException("No se encontraron alertas para esta jaula: " + jaulaId);
         }catch (WebClientException ex) {
-            throw new ServicioExternoException ("No se pudo conectar al servicio de alertas", ex);
+            ex.printStackTrace(); 
+    
+            throw new ServicioExternoException("No se pudo conectar al servicio de alertas", ex);//
         }
+            //throw new ServicioExternoException ("No se pudo conectar al servicio de alertas", ex);
+        
     }
 
     private MonitoreoAResponse consultarMonitoreoA(int jaulaId) {
@@ -91,9 +102,9 @@ public class SanitarioService {
             .bodyToMono(MonitoreoAResponse.class)
             .block();
         }catch (WebClientResponseException.NotFound ex) {
-            throw new ResourceNotFoundException("No se encontraron datos de Monitoreo Ambiental");
+            throw new ResourceNotFoundException("No se encontraron datos de Monitoreo Ambiental para la jaula: " + jaulaId, ex);
         }catch (WebClientException ex) {
-            throw new ServicioExternoException("No se pudo conectar al servicio de Monitoreo Ambiental")
+            throw new ServicioExternoException("No se pudo conectar al servicio de Monitoreo Ambiental", ex);
         }
     }
 
@@ -105,9 +116,9 @@ public class SanitarioService {
             .bodyToMono(MortalidadResponse.class)
             .block();
         }catch (WebClientResponseException.NotFound ex) {
-            throw new ResourceNotFoundException( "No hay registros de mortalidad");
+            throw new ResourceNotFoundException( "No hay registros de mortalidad para la jaula: " + jaulaId, ex);
         }catch (WebClientException ex) {
-            throw new ServicioExternoException("No se pudo conectar al servio de mortalidad");
+            throw new ServicioExternoException("No se pudo conectar al servio de mortalidad", ex);
         }
     }
 
