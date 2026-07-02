@@ -45,6 +45,7 @@ public class SanitarioService {
     }
 
     //logica del dashboard vet
+    //GET: solo sirve para darle un panorama completo a la veterinaria, de los ms alertas, mortalidad y monitoreo ambiental, que pueda ver la info por jaulaId
 
     public DashboardVetResponse obtenerDashboardVet(Integer jaulaId) {
         DashboardVetResponse dashboard = new DashboardVetResponse();
