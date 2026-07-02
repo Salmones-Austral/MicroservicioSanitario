@@ -66,6 +66,8 @@ public class SanitarioService {
         try{
             dashboard.setMortalidad(consultarMortalidad(jaulaId));
         }catch (Exception e) {
+            System.out.println("error en ms mortalidad: " + e.getMessage());
+            e.printStackTrace();
             //si falla, es lo mismo 
         }
         return dashboard;
@@ -90,19 +92,24 @@ public class SanitarioService {
     
             throw new ServicioExternoException("No se pudo conectar al servicio de alertas", ex);//
         }
-            //throw new ServicioExternoException ("No se pudo conectar al servicio de alertas", ex);
+        
         
     }
 
     private MonitoreoAResponse consultarMonitoreoA(int jaulaId) {
         try{
-            return monitoreoAWebClient.get()
+            MonitoreoAResponse[] respuestas = monitoreoAWebClient.get()
+            //return monitoreoAWebClient.get()
             .uri("/jaula/{id}", jaulaId)
             .retrieve()
-            .bodyToMono(MonitoreoAResponse.class)
+            .bodyToMono(MonitoreoAResponse[].class)
             .block();
-        }catch (WebClientResponseException.NotFound ex) {
-            throw new ResourceNotFoundException("No se encontraron datos de Monitoreo Ambiental para la jaula: " + jaulaId, ex);
+            if (respuestas != null && respuestas.length>0) {
+                return respuestas[0];
+            }
+            return null;
+        //}catch (WebClientResponseException.NotFound ex) {
+            //throw new ResourceNotFoundException("No se encontraron datos de Monitoreo Ambiental para la jaula: " + jaulaId, ex);
         }catch (WebClientException ex) {
             throw new ServicioExternoException("No se pudo conectar al servicio de Monitoreo Ambiental", ex);
         }
@@ -110,13 +117,23 @@ public class SanitarioService {
 
     private MortalidadResponse consultarMortalidad(int jaulaId) {
         try{
-            return mortalidadWebClient.get()
-            .uri("jaula/{id}", jaulaId)
+            //consulta el endpoint del promedio que devuelve double
+             Double promedioMortalidad  = mortalidadWebClient.get()
+            .uri("/jaula/{id}/promedio", jaulaId)
             .retrieve()
-            .bodyToMono(MortalidadResponse.class)
+            .bodyToMono(Double.class)
             .block();
-        }catch (WebClientResponseException.NotFound ex) {
-            throw new ResourceNotFoundException( "No hay registros de mortalidad para la jaula: " + jaulaId, ex);
+            if (promedioMortalidad != null) {
+                MortalidadResponse res = new MortalidadResponse();
+                //asgina el promedio al atributo correspondeinte y ajusta "setPorcentaje" o "setpromedio" segun nombre clase
+                res.setPorcentaje(promedioMortalidad);
+                res.setJaulaId(jaulaId);
+                return res;
+            }
+            return null;
+
+        //}catch (WebClientResponseException.NotFound ex) {
+          //  throw new ResourceNotFoundException( "No hay registros de mortalidad para la jaula: " + jaulaId, ex);
         }catch (WebClientException ex) {
             throw new ServicioExternoException("No se pudo conectar al servio de mortalidad", ex);
         }

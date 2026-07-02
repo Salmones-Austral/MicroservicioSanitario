@@ -1,5 +1,12 @@
 package cl.SalmonesAustral.Sanitario.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class MortalidadResponse {
    
@@ -8,9 +15,9 @@ public class MortalidadResponse {
     private double porcentaje;
     private int dias;
 
-    public MortalidadResponse() {}
+    //public MortalidadResponse() {}
 
-     // GETTERS Y SETTERS
+    /*// GETTERS Y SETTERS
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
     public int getJaulaId() { return jaulaId; }
@@ -19,5 +26,5 @@ public class MortalidadResponse {
     public void setPorcentaje(double porcentaje) { this.porcentaje = porcentaje; }
     public int getDias() { return dias; }
     public void setDias(int dias) { this.dias = dias; }
-
+*/
 }

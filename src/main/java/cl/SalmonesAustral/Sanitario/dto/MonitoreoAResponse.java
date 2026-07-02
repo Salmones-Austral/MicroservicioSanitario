@@ -2,7 +2,13 @@ package cl.SalmonesAustral.Sanitario.dto;
 
 import java.time.LocalDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MonitoreoAResponse {
    
     private Integer id;
@@ -14,7 +20,7 @@ public class MonitoreoAResponse {
     private Boolean bloomAlgas;
     private LocalDateTime fechaRegistro;
 
-    public MonitoreoAResponse() {}
+    //public MonitoreoAResponse() {}
 
     //getter y setter
     public Integer getId() {
