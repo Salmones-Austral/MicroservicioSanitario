@@ -8,7 +8,6 @@ import cl.SalmonesAustral.Sanitario.exception.ResourceNotFoundException;
 import cl.SalmonesAustral.Sanitario.exception.ServicioExternoException;
 import cl.SalmonesAustral.Sanitario.modelo.Sanitario;
 import cl.SalmonesAustral.Sanitario.repository.SanitarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
