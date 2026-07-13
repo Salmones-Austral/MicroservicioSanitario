@@ -184,7 +184,7 @@ public class SanitarioService {
 
     public boolean puedeCosechar(Integer jaulaId) {
         List<Sanitario> lista = repository.findByJaulaId(jaulaId);
-        if(lista.isEmpty()){
+        if(lista == null || lista.isEmpty()){
             return true;
         }
     LocalDate hoy=LocalDate.now();
@@ -193,7 +193,12 @@ public class SanitarioService {
             return false;
         }
         if(t.getFechaInicio()!=null) {
-            int diasTotalesTratamiento=t.getDuracionDias() + t.getDiasResguardo();
+
+            // Si duración o resguardo vienen nulos, les asignamos 0 para que no se interrumpa el proceso
+            int duracion = (t.getDuracionDias() != null) ? t.getDuracionDias() : 0;
+            int resguardo = (t.getDiasResguardo() != null) ? t.getDiasResguardo() : 0;
+            
+            int diasTotalesTratamiento = duracion + resguardo;
             LocalDate fechaLiberacionSanitario = t.getFechaInicio().plusDays(diasTotalesTratamiento);
 
             if(hoy.isBefore(fechaLiberacionSanitario)) {
